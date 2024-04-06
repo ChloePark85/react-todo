@@ -1,16 +1,13 @@
 import "./App.css";
 import { useState } from "react";
+import TodoForm from "./TodoForm";
+import TodoItem from "./TodoItem";
 
 function App() {
   const [todo, setTodo] = useState([]);
-  const [newTodo, setNewTodo] = useState(""); //인풋창에 들어가는 것
 
-  const onChangeNewTodo = (e) => {
-    setNewTodo(e.target.value);
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (newTodo) => {
+    console.log("onParentSubmit");
     const nextTodo = [
       ...todo,
       { title: newTodo, completed: false, id: Math.random() },
@@ -24,20 +21,14 @@ function App() {
       {todo.length === 0 ? (
         <div>
           <div>Todo</div>
-          <form onSubmit={onSubmit}>
-            <input value={newTodo} onChange={onChangeNewTodo} />
-            <button>추가</button>
-          </form>
+          <TodoForm onSubmit={onSubmit} />
         </div>
       ) : (
         <div>
           {todo.map((t) => (
-            <div key={t.id}>{t.title}</div>
+            <TodoItem key={t.id} item={t} setTodo={setTodo} />
           ))}
-          <form onSubmit={onSubmit}>
-            <input value={newTodo} onChange={onChangeNewTodo} />
-            <button>추가</button>
-          </form>
+          <TodoForm onSubmit={onSubmit} />
         </div>
       )}
     </div>
